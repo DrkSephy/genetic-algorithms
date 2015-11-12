@@ -7,7 +7,6 @@ import random
 # Generate a list of 100 random integers (no duplicates) 
 # with range [1, 10000] exclusive
 list = random.sample(range(1, 10000), 100)
-print len(list)
 # First population subset of 50
 subsetOne = []
 # Second population subset of 50
@@ -19,21 +18,33 @@ subsetTwo = []
 # containing 50 integers, subsequently stored within
 # subsetOne and subsetTwo.
 def partition(list):
-	while (len(subsetOne) < 50 and len(subsetTwo) < 50):
-		# Select an array index from our initial list
-		listChoice = random.randint(0, len(list) - 1)
-		# Which subset should we randomly place value
+	# Generate a list of indices
+	indices = [x for x in range(100)]
+	print indices
+	# Shuffle the indices
+ 	random.shuffle(indices)
+
+	for index in indices:
 		choice = random.randint(0, 1)
-		if(choice == 0 and len(subsetOne) < 50):
-			subsetOne.append(list[listChoice])
-		elif(choice == 1 and len(subsetTwo) < 50):
-			subsetTwo.append(list[listChoice])
+		print choice
+		# We insert into the first subset
+		if(choice == 0):
+			# First subset isn't full
+			if(len(subsetOne) - 1 != 50):
+				subsetOne.append(list[index])
+			else: 
+				# First subset is full, insert into second
+				subsetTwo.append(list[index])
+		else:
+			if(len(subsetTwo) - 1 != 50):
+				subsetTwo.append(list[index])
+			else:
+				subsetOne.append(list[index])			
 	return
 
 partition(list)
-print subsetOne
-print len(subsetOne)
-print subsetTwo
-print len(subsetTwo)
+# At this point, but subsets should have a size of 50
+print len(subsetOne) - 1
+print len(subsetTwo) - 1
 
 
