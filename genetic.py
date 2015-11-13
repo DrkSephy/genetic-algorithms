@@ -12,39 +12,39 @@ subsetOne = []
 # Second population subset of 50
 subsetTwo = []
 
-
-# Partition method will operate on our initial list
-# and randomly partition it into two subsets each 
-# containing 50 integers, subsequently stored within
-# subsetOne and subsetTwo.
 def partition(list):
 	# Generate a list of indices
 	indices = [x for x in range(100)]
-	print indices
 	# Shuffle the indices
  	random.shuffle(indices)
 
 	for index in indices:
+		# Randomly choose a subset to insert into
 		choice = random.randint(0, 1)
-		print choice
 		# We insert into the first subset
 		if(choice == 0):
-			# First subset isn't full
-			if(len(subsetOne) - 1 != 50):
-				subsetOne.append(list[index])
-			else: 
+			if(len(subsetOne) == 50):
 				# First subset is full, insert into second
 				subsetTwo.append(list[index])
-		else:
-			if(len(subsetTwo) - 1 != 50):
-				subsetTwo.append(list[index])
 			else:
-				subsetOne.append(list[index])			
+				# First subset has space, insert
+				subsetOne.append(list[index])	
+		else:
+			if(len(subsetTwo) == 50):
+				# Second subset is full, insert into first
+				subsetOne.append(list[index])
+			else:
+				# Second subset has space, insert
+				subsetTwo.append(list[index])
+			
+
 	return
 
 partition(list)
+
 # At this point, but subsets should have a size of 50
-print len(subsetOne) - 1
-print len(subsetTwo) - 1
+print len(subsetOne)
+print len(subsetTwo)
+
 
 
