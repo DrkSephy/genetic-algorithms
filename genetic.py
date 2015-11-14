@@ -8,10 +8,21 @@ import pprint
 # Generate a list of 100 random integers (no duplicates) 
 # with range [1, 10000] exclusive
 list = random.sample(range(1, 10000), 100)
+
 # Complete population
 population = []
 
 def partition(list, size):
+	"""
+	Generates an initial population denoted by size using
+	a list of data. 
+
+	Parameters:
+	    list: list
+	    	- A List of numbers to form the base population with
+	    size: integer 
+	    	- The cardinality of the initial population to generate
+	"""
 	for i in range(0, size):
 		subset = []
 		# First population subset of 50
@@ -41,10 +52,12 @@ def partition(list, size):
 				else:
 					# Second subset has space, insert
 					subsetTwo.append(list[index])
+
 		# Append populations 
 		subset.append(subsetOne)
 		subset.append(subsetTwo)
 		population.append(subset)
+
 	return
 
 partition(list, 20)
