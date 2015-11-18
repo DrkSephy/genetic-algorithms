@@ -22,6 +22,8 @@ list = random.sample(range(1, 10000), 100)
 population = []
 # Fitness of genes
 populationFitness = []
+# Frequency Table for convergence
+frequency = {}
 
 def partition(list, size):
 	"""
@@ -80,7 +82,7 @@ def partition(list, size):
 # 12 is lower than the other 3 members, so the fitness function 
 # will assign a value of 3. The higher this number is, the better
 # (closer to minimizing the sum)
-def fitness(population):
+def fitnessAssessment(population):
 	"""
 	Computes the fitness of each gene in our population. 
 
@@ -105,14 +107,19 @@ def fitness(population):
 	# Assign fitness to each gene based on how many 
 	# other members a gene is less than
 	for difference in sortedDifferences:
-		populationFitness.append(len(sortedDifferences) - 1 - sortedDifferences.index(difference))
+		fitness = len(sortedDifferences) - 1 - sortedDifferences.index(difference)
+		# Append fitness of gene to a fitness list
+		populationFitness.append(fitness)
+		# Store fitness:difference 
+		frequency[fitness] = difference
 
 # Our initial population will consist of 20 genes (strings)
 partition(list, 20)
 # pprint.pprint(population)
-fitness(population)
+fitnessAssessment(population)
 # Check fitness values
 print populationFitness	
+print frequency
 
 
 
