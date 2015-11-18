@@ -2,6 +2,15 @@
 # -*- MIT License (c) 2015 David Leonard -*-
 # -*- drksephy.github.io -*-
 
+# Implementation notes:
+# 	* Each gene is composed of two equal length
+# 	  lists, filled with elements randomly
+# 	* Fitness function will be the closeness 
+# 	  of the sum of the two lists
+#   * Choose the surviving genes and cross them
+#     over using the roulette method
+#   * Repeat until convergence
+
 import random
 import pprint
 
@@ -33,7 +42,7 @@ def partition(list, size):
 		indices = [x for x in range(100)]
 		# Shuffle the indices
 	 	random.shuffle(indices)
-
+	 	# Populate our lists
 		for index in indices:
 			# Randomly choose a subset to insert into
 			choice = random.randint(0, 1)
