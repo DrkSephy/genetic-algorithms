@@ -21,7 +21,7 @@ list = random.sample(range(1, 10000), 100)
 # Complete population
 population = []
 # Fitness of genes
-fitness = []
+populationFitness = []
 
 def partition(list, size):
 	"""
@@ -33,6 +33,9 @@ def partition(list, size):
 	    	- A List of numbers to form the base population with
 	    size: integer 
 	    	- The cardinality of the initial population to generate
+	Returns:
+		list 
+			- A list of comprised of two subsets of length 50
 	"""
 	for i in range(0, size):
 		subset = []
@@ -80,14 +83,36 @@ def partition(list, size):
 def fitness(population):
 	"""
 	Computes the fitness of each gene in our population. 
+
+	Parameters: 
+		population: list
+			- The set of all genes 
+	Returns:
+		fitness: list
+			- An array of fitness functions for our genes
 	"""
+	# Store differences between each gene
+	differences = []
+	
+	# Compute differences between each gene
 	for gene in population:
-		print sum(gene[0]) - sum(gene[1])
+		difference = abs(sum(gene[0]) - sum(gene[1]))
+		differences.append(difference)
+	
+	# Sort list of differences in ascending order
+	sortedDifferences = sorted(differences)
+	
+	# Assign fitness to each gene based on how many 
+	# other members a gene is less than
+	for difference in sortedDifferences:
+		populationFitness.append(len(sortedDifferences) - 1 - sortedDifferences.index(difference))
 
 # Our initial population will consist of 20 genes (strings)
 partition(list, 20)
 # pprint.pprint(population)
 fitness(population)
+# Check fitness values
+print populationFitness	
 
 
 
