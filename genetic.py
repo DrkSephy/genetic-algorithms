@@ -113,13 +113,25 @@ def fitnessAssessment(population):
 		# Store fitness:difference 
 		frequency[fitness] = difference
 
+def evaluateConvergence(frequency, convergence):
+	"""
+	Loops over frequency table and checks if we've reached 
+	a value close to our convergence level.
+	"""
+	for key, value in frequency.iteritems():
+		if value < convergence:
+			print "We've reached a convergence value!"
+			print "The gene: " + str(population[key]) + " has converged with a value of: " + str(value)
+	return
+
+
 # Our initial population will consist of 20 genes (strings)
 partition(list, 20)
 # pprint.pprint(population)
 fitnessAssessment(population)
 # Check fitness values
 print populationFitness	
-print frequency
+evaluateConvergence(frequency, 500)
 
 
 
