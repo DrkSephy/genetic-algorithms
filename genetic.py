@@ -20,6 +20,8 @@ list = random.sample(range(1, 10000), 100)
 
 # Complete population
 population = []
+# Fitness of genes
+fitness = []
 
 def partition(list, size):
 	"""
@@ -66,11 +68,26 @@ def partition(list, size):
 		subset.append(subsetOne)
 		subset.append(subsetTwo)
 		population.append(subset)
-
 	return
 
+# For now, maybe a good fitness function is how many numbers
+# the difference between the sets is less than. 
+# For example, the following array of differences:
+# 	[121, 12, 98, 75]
+# 12 is lower than the other 3 members, so the fitness function 
+# will assign a value of 3. The higher this number is, the better
+# (closer to minimizing the sum)
+def fitness(population):
+	"""
+	Computes the fitness of each gene in our population. 
+	"""
+	for gene in population:
+		print sum(gene[0]) - sum(gene[1])
+
+# Our initial population will consist of 20 genes (strings)
 partition(list, 20)
-pprint.pprint(population)
+# pprint.pprint(population)
+fitness(population)
 
 
 
