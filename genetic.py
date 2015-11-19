@@ -20,8 +20,10 @@ list = random.sample(range(1, 10000), 100)
 
 # Complete population
 population = []
+
 # Fitness of genes
 populationFitness = []
+
 # Frequency Table for convergence
 frequency = {}
 
@@ -119,9 +121,7 @@ def evaluateConvergence(frequency, convergence):
 	a value close to our convergence level.
 	"""
 	for key, value in frequency.iteritems():
-		if value < convergence:
-			print "We've reached a convergence value!"
-			print "The gene: " + str(population[key]) + " has converged with a value of: " + str(value)
+		print key, value
 	return
 
 def mutation(population, rate):
@@ -135,7 +135,6 @@ def mutation(population, rate):
 			- Rate of mutation of a gene
 
 	Returns:
-
 	"""
 	return
 
@@ -150,9 +149,12 @@ def crossover(first, second):
 			- The second subset gene to perform crossover with
 
 	Returns:
-	
+
 	"""
 	return
+
+def incrementGeneration(generation):
+	return generation + 1
 
 # Our initial population will consist of 20 genes (strings)
 partition(list, 20)
