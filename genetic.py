@@ -124,6 +124,35 @@ def evaluateConvergence(frequency, convergence):
 			print "The gene: " + str(population[key]) + " has converged with a value of: " + str(value)
 	return
 
+def mutation(population, rate):
+	"""
+	Performs a mutation on a given gene at a given probability rate.
+
+	Parameters:
+		population: list
+			- List of all genes in our current population
+		rate: float
+			- Rate of mutation of a gene
+
+	Returns:
+
+	"""
+	return
+
+def crossover(first, second):
+	"""
+	Performs crossover of two genes using the roulette wheel selection.
+
+	Parameters:
+		first: list
+			- The first subset gene to perform crossover with
+		second: list
+			- The second subset gene to perform crossover with
+
+	Returns:
+	
+	"""
+	return
 
 # Our initial population will consist of 20 genes (strings)
 partition(list, 20)
@@ -131,6 +160,7 @@ partition(list, 20)
 fitnessAssessment(population)
 # Check fitness values
 print populationFitness	
+print frequency
 evaluateConvergence(frequency, 500)
 
 
