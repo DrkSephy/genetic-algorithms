@@ -27,6 +27,9 @@ populationFitness = []
 # Frequency Table for convergence
 frequency = {}
 
+# Binary representation of population
+binaryPopulation = []
+
 def partition(list, size):
 	"""
 	Generates an initial population denoted by size using
@@ -121,7 +124,9 @@ def evaluateConvergence(frequency, convergence):
 	a value close to our convergence level.
 	"""
 	for key, value in frequency.iteritems():
-		print key, value
+		if value < convergence:
+			print "We've reached a convergence value!"
+			print "The gene: " + str(population[key]) + " has converged with a value of: " + str(value)
 	return
 
 def mutation(population, rate):
@@ -137,6 +142,25 @@ def mutation(population, rate):
 	Returns:
 	"""
 	return
+
+def convertToBinary(format, padding):
+	"""
+	Returns a binary representation of our population.
+	"""
+
+	for gene in population:
+		subset = []
+		subsetOne = []
+		subsetTwo = []
+		for value in gene[0]:
+			binary = bin(value)[2:].zfill(14)
+			subsetOne.append(binary)	
+		for value in gene[1]:
+			binary = bin(value)[2:].zfill(14)
+			subsetTwo.append(binary)
+		subset.append(subsetOne)
+		subset.append(subsetTwo)
+		binaryPopulation.append(subset)
 
 def crossover(first, second):
 	"""
@@ -162,8 +186,11 @@ partition(list, 20)
 fitnessAssessment(population)
 # Check fitness values
 print populationFitness	
-print frequency
-evaluateConvergence(frequency, 500)
+#print frequency
+#evaluateConvergence(frequency, 500)
+convertToBinary(2,2)
+print population[0][0][0]
+print int(binaryPopulation[0][0][0], 2)
 
 
 
