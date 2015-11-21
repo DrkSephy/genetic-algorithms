@@ -14,6 +14,10 @@
 import random
 import pprint
 
+#----------------------------------------
+#       GENETIC ALGORITHM PARAMETERS     
+#----------------------------------------
+
 # Generate a list of 100 random integers (no duplicates) 
 # with range [1, 10000] exclusive
 list = random.sample(range(1, 10000), 100)
@@ -29,6 +33,44 @@ frequency = {}
 
 # Binary representation of population
 binaryPopulation = []
+
+#----------------------------------------
+#            GENETIC OPERATORS     
+#----------------------------------------
+
+def mutation(population, rate):
+	"""
+	Performs a mutation on a given gene at a given probability rate.
+
+	Parameters:
+		population: list
+			- List of all genes in our current population
+		rate: float
+			- Rate of mutation of a gene
+
+	Returns:
+	"""
+	return
+
+def crossover(first, second):
+	"""
+	Performs crossover of two genes using the roulette wheel selection.
+
+	Parameters:
+		first: list
+			- The first subset gene to perform crossover with
+		second: list
+			- The second subset gene to perform crossover with
+
+	Returns:
+
+	"""
+	return
+
+
+#----------------------------------------
+#             HELPER METHODS      
+#----------------------------------------
 
 def partition(list, size):
 	"""
@@ -80,13 +122,46 @@ def partition(list, size):
 		population.append(subset)
 	return
 
-# For now, maybe a good fitness function is how many numbers
-# the difference between the sets is less than. 
-# For example, the following array of differences:
-# 	[121, 12, 98, 75]
-# 12 is lower than the other 3 members, so the fitness function 
-# will assign a value of 3. The higher this number is, the better
-# (closer to minimizing the sum)
+def validateConversions(population, binary):
+	"""
+	Validates that each value in the population has the correct
+	binary representation.
+
+	Parameters:
+		population: list
+			- The list of genes consisting of arrays of integers
+		binary: list
+			- The list of genes in binary representation
+	"""
+
+def convertToBinary(format, padding):
+	"""
+	Returns a binary representation of our population.
+
+	Parameters:
+		format: integer
+			- How many characters to trim from result
+		padding: integer
+			- How many bits should be padded to result
+	"""
+
+	for gene in population:
+		subset = []
+		subsetOne = []
+		subsetTwo = []
+		for value in gene[0]:
+			binary = bin(value)[format:].zfill(padding)
+			subsetOne.append(binary)	
+		for value in gene[1]:
+			binary = bin(value)[format:].zfill(padding)
+			subsetTwo.append(binary)
+		subset.append(subsetOne)
+		subset.append(subsetTwo)
+		binaryPopulation.append(subset)
+
+def incrementGeneration(generation):
+	return generation + 1
+
 def fitnessAssessment(population):
 	"""
 	Computes the fitness of each gene in our population. 
@@ -128,65 +203,6 @@ def evaluateConvergence(frequency, convergence):
 			print "We've reached a convergence value!"
 			print "The gene: " + str(population[key]) + " has converged with a value of: " + str(value)
 	return
-
-def mutation(population, rate):
-	"""
-	Performs a mutation on a given gene at a given probability rate.
-
-	Parameters:
-		population: list
-			- List of all genes in our current population
-		rate: float
-			- Rate of mutation of a gene
-
-	Returns:
-	"""
-	return
-
-def convertToBinary(format, padding):
-	"""
-	Returns a binary representation of our population.
-
-	Parameters:
-		format: integer
-			- How many characters to trim from result
-		padding: integer
-			- How many bits should be padded to result
-	"""
-
-	for gene in population:
-		subset = []
-		subsetOne = []
-		subsetTwo = []
-		for value in gene[0]:
-			binary = bin(value)[format:].zfill(padding)
-			subsetOne.append(binary)	
-		for value in gene[1]:
-			binary = bin(value)[format:].zfill(padding)
-			subsetTwo.append(binary)
-		subset.append(subsetOne)
-		subset.append(subsetTwo)
-		binaryPopulation.append(subset)
-
-def crossover(first, second):
-	"""
-	Performs crossover of two genes using the roulette wheel selection.
-
-	Parameters:
-		first: list
-			- The first subset gene to perform crossover with
-		second: list
-			- The second subset gene to perform crossover with
-
-	Returns:
-
-	"""
-	return
-
-	
-
-def incrementGeneration(generation):
-	return generation + 1
 
 # Our initial population will consist of 20 genes (strings)
 partition(list, 20)
