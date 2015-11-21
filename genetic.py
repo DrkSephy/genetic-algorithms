@@ -146,6 +146,12 @@ def mutation(population, rate):
 def convertToBinary(format, padding):
 	"""
 	Returns a binary representation of our population.
+
+	Parameters:
+		format: integer
+			- How many characters to trim from result
+		padding: integer
+			- How many bits should be padded to result
 	"""
 
 	for gene in population:
@@ -153,10 +159,10 @@ def convertToBinary(format, padding):
 		subsetOne = []
 		subsetTwo = []
 		for value in gene[0]:
-			binary = bin(value)[2:].zfill(14)
+			binary = bin(value)[format:].zfill(padding)
 			subsetOne.append(binary)	
 		for value in gene[1]:
-			binary = bin(value)[2:].zfill(14)
+			binary = bin(value)[format:].zfill(padding)
 			subsetTwo.append(binary)
 		subset.append(subsetOne)
 		subset.append(subsetTwo)
@@ -177,6 +183,8 @@ def crossover(first, second):
 	"""
 	return
 
+	
+
 def incrementGeneration(generation):
 	return generation + 1
 
@@ -188,7 +196,7 @@ fitnessAssessment(population)
 print populationFitness	
 #print frequency
 #evaluateConvergence(frequency, 500)
-convertToBinary(2,2)
+convertToBinary(2, 14)
 print population[0][0][0]
 print int(binaryPopulation[0][0][0], 2)
 
