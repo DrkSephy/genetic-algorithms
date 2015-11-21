@@ -237,21 +237,21 @@ def evaluateConvergence(frequency, convergence):
 			print "The gene: " + str(population[key]) + " has converged with a value of: " + str(value)
 	return
 
+#----------------------------------------
+#       	   MAIN FUNCTION     
+#----------------------------------------
 
+def main():
+	# Generate initial generation of 20 strings
+	partition(list, 20)
 
-# Our initial population will consist of 20 genes (strings)
-partition(list, 20)
-# pprint.pprint(population)
-fitnessAssessment(population)
-# Check fitness values
-print populationFitness	
-#print frequency
-#evaluateConvergence(frequency, 500)
-convertToBinary(2, 14)
-#print population[0][0][0]
-#print int(binaryPopulation[0][0][0], 2)
-print(validateConversions(population, binaryPopulation))
-print(validateLength(binaryPopulation, 14))
+	# Compute and assign fitness of population members
+	fitnessAssessment(population)
 
+	# Check if algorithm converged
+	#evaluateConvergence(frequency, 500)
 
+	# Generate binary representation of population
+	convertToBinary(2, 14)
 
+main()
