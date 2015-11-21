@@ -137,13 +137,35 @@ def validateConversions(population, binary):
 	for gene in population:
 		for subset in gene:
 			for member in subset:
-				#print int(binary[population.index(gene)][gene.index(subset)][subset.index(member)], 2)
 				if (member) != int(binary[population.index(gene)][gene.index(subset)][subset.index(member)], 2):
 					print 'There was a mismatch!'
 					mismatch = True
-				else: 
-					print 'Values are identical'
-					return mismatch
+	print 'Values are identical'
+	return mismatch 
+					
+
+def validateLength(binary, length):
+	"""
+	Validates that all members in binary representation are 
+	correctly padded to have equal lengths.
+
+	Parameters:
+		binary: list
+			- The binary representation of our population
+		length: integer
+			- The length that each member should be 
+	"""
+	lengthMismatch = False
+	for gene in binary:
+		for subset in gene:
+			for member in subset:
+				if len(member) != length:
+					print 'There is a length mismatch among our population'
+					lengthMismatch = True
+	print 'Lengths are identical'
+	return lengthMismatch
+
+
 
 def convertToBinary(format, padding):
 	"""
@@ -215,6 +237,8 @@ def evaluateConvergence(frequency, convergence):
 			print "The gene: " + str(population[key]) + " has converged with a value of: " + str(value)
 	return
 
+
+
 # Our initial population will consist of 20 genes (strings)
 partition(list, 20)
 # pprint.pprint(population)
@@ -227,6 +251,7 @@ convertToBinary(2, 14)
 #print population[0][0][0]
 #print int(binaryPopulation[0][0][0], 2)
 print(validateConversions(population, binaryPopulation))
+print(validateLength(binaryPopulation, 14))
 
 
 
