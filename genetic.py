@@ -133,6 +133,17 @@ def validateConversions(population, binary):
 		binary: list
 			- The list of genes in binary representation
 	"""
+	mismatch = False
+	for gene in population:
+		for subset in gene:
+			for member in subset:
+				#print int(binary[population.index(gene)][gene.index(subset)][subset.index(member)], 2)
+				if (member) != int(binary[population.index(gene)][gene.index(subset)][subset.index(member)], 2):
+					print 'There was a mismatch!'
+					mismatch = True
+				else: 
+					print 'Values are identical'
+					return mismatch
 
 def convertToBinary(format, padding):
 	"""
@@ -213,8 +224,9 @@ print populationFitness
 #print frequency
 #evaluateConvergence(frequency, 500)
 convertToBinary(2, 14)
-print population[0][0][0]
-print int(binaryPopulation[0][0][0], 2)
+#print population[0][0][0]
+#print int(binaryPopulation[0][0][0], 2)
+print(validateConversions(population, binaryPopulation))
 
 
 
