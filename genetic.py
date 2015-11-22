@@ -34,22 +34,48 @@ frequency = {}
 # Binary representation of population
 binaryPopulation = []
 
+# Mutation rate = 1 / length of binary vector (14)
+mutationRate = 7.142857142857142
+
 #----------------------------------------
 #            GENETIC OPERATORS     
 #----------------------------------------
 
-def mutation(population, rate):
+def mutation(gene, rate):
 	"""
 	Performs a mutation on a given gene at a given probability rate.
 
 	Parameters:
-		population: list
-			- List of all genes in our current population
+		gene: list
+			- A gene consisting of a list of numbers to mutate
 		rate: float
 			- Rate of mutation of a gene
-
-	Returns:
 	"""
+
+	mutatedGene = ''
+	mutated = False
+	numMutated = 0
+	for subset in gene:
+		print subset
+		for member in subset:
+			for chromosome in member:
+				mutationProbability = random.uniform(0, 100)
+				if mutationProbability < rate:
+					mutated = True
+					# Append mutated (toggled) bit
+					mutatedGene += str(int(not chromosome))
+				else:
+					mutatedGene += chromosome
+			if mutated:
+				# print member before mutation
+				index = subset.index(member)
+				print 'Before mutation: ' + subset[index]
+				subset[index] = mutatedGene
+				print 'After mutation:  ' + subset[index]
+				numMutated += 1
+			mutated = False	
+			mutatedGene = ''
+	print numMutated
 	return
 
 def crossover(first, second):
@@ -177,16 +203,15 @@ def convertToBinary(format, padding):
 		padding: integer
 			- How many bits should be padded to result
 	"""
-
 	for gene in population:
 		subset = []
 		subsetOne = []
 		subsetTwo = []
 		for value in gene[0]:
-			binary = bin(value)[format:].zfill(padding)
+			binary = bin(value)[format:]
 			subsetOne.append(binary)	
 		for value in gene[1]:
-			binary = bin(value)[format:].zfill(padding)
+			binary = bin(value)[format:]
 			subsetTwo.append(binary)
 		subset.append(subsetOne)
 		subset.append(subsetTwo)
@@ -253,5 +278,8 @@ def main():
 
 	# Generate binary representation of population
 	convertToBinary(2, 14)
+
+	# Test mutation
+	mutation(binaryPopulation[0], mutationRate)
 
 main()
