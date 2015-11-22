@@ -53,29 +53,19 @@ def mutation(gene, rate):
 	"""
 
 	mutatedGene = ''
-	mutated = False
-	numMutated = 0
 	for subset in gene:
-		print subset
 		for member in subset:
 			for chromosome in member:
 				mutationProbability = random.uniform(0, 100)
 				if mutationProbability < rate:
-					mutated = True
-					# Append mutated (toggled) bit
-					mutatedGene += str(int(not chromosome))
+					# Append mutated (toggled) bits
+					mutatedGene += str(int(not int(chromosome)))
 				else:
 					mutatedGene += chromosome
-			if mutated:
-				# print member before mutation
-				index = subset.index(member)
-				print 'Before mutation: ' + subset[index]
-				subset[index] = mutatedGene
-				print 'After mutation:  ' + subset[index]
-				numMutated += 1
+			index = subset.index(member)
+			subset[index] = mutatedGene
 			mutated = False	
 			mutatedGene = ''
-	print numMutated
 	return
 
 def crossover(first, second):
@@ -97,6 +87,11 @@ def crossover(first, second):
 #----------------------------------------
 #             HELPER METHODS      
 #----------------------------------------
+
+def duplicateCheck(list, value):
+	for i, j in enumerate(list):
+		if j == value:
+			print i
 
 def partition(list, size):
 	"""
