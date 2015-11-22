@@ -86,7 +86,7 @@ class Genetic(object):
 		"""
 		return
 
-	def selection(self, count):
+	def selection(self, count, population):
 		"""
 		Selects the next set of strings that participate in the
 		formation of the next population.
@@ -99,17 +99,47 @@ class Genetic(object):
 		"""
 
 		# Compute total fitness of population
+		totalFitness = 0
 		for key in self.frequency:
-			print key
+			totalFitness += key
 
+		# Compute weighted fitnesses
+		weightedFitness = [float(key) / float(totalFitness) for key in self.frequency]
+
+		# Generate probability intervals
+		probabilities = [round(sum(weightedFitness[:i + 1]) * 100, 2) for i in range(len(weightedFitness))]
+
+		# Generate new population
+		newPopulation = []
+		for i in range(count):
+			probability = random.uniform(0, 100)
+			for (n, individual) in enumerate(population):
+				if probability <= probabilities[n]:
+					newPopulation.append(individual)
+					break
+
+		# Replace current population
+		self.population = newPopulation
+		return
+		
 	#----------------------------------------
 	#             HELPER METHODS      
 	#----------------------------------------
 
 	def duplicateCheck(self, list, value):
+		"""
+		Returns all instances of value in a list.
+
+		Parameters:
+			list: list
+				- List of values to check through
+			value: string
+				- Binary string to search within the list
+		"""
 		for i, j in enumerate(list):
 			if j == value:
 				print i
+		return
 
 	def partition(self, list, size):
 		"""
@@ -263,6 +293,7 @@ class Genetic(object):
 			self.populationFitness.append(fitness)
 			# Store fitness:difference 
 			self.frequency[fitness] = difference
+		return
 
 	def evaluateConvergence(self, frequency, convergence):
 		"""
@@ -292,10 +323,10 @@ class Genetic(object):
 		# Generate binary representation of population
 		self.convertToBinary(2, 14)
 
-		# Test mutation
-		self.mutation(self.binaryPopulation[0], self.mutationRate)
+		# Select new individuals to form the new generation
+		self.selection(10, self.population)
 
-		self.selection(5)
+		return
 
 genetic = Genetic()
 genetic.main()
