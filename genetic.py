@@ -110,6 +110,10 @@ class Genetic(object):
 		probabilities = [round(sum(weightedFitness[:i + 1]) * 100, 2) for i in range(len(weightedFitness))]
 
 		# Generate new population
+		# NOTE: We might want to only return two individuals at a time
+		# to pass into the crossover function. For now, we generate 
+		# an entire new population which we will then randomly select 
+		# two individuals each time to perform crossover with. 
 		newPopulation = []
 		for i in range(count):
 			probability = random.uniform(0, 100)
