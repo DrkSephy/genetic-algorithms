@@ -262,22 +262,8 @@ class Genetic(object):
 		# Partition population of binary strings into respective subsets
 		self.partition()
 
+		# Generate fitness of each string
 		self.fitnessAssessment(self.numericalPopulation)
-
-		print self.frequency
-
-
-		# Compute and assign fitness of population members
-		#self.fitnessAssessment(self.population)
-
-		# Check if algorithm converged
-		#evaluateConvergence(frequency, 500)
-
-		# Generate binary representation of population
-		#self.convertToBinary(2, 14)
-
-		# Select new individuals to form the new generation
-		#self.selection(10, self.population)
 
 		return
 
