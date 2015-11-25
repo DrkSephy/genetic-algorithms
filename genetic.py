@@ -52,26 +52,17 @@ class Genetic(object):
 		Performs a mutation on a given gene at a given probability rate.
 
 		Parameters:
-			gene: list
-				- A gene consisting of a list of numbers to mutate
+			gene: string
+				- A bit string to randomly mutate
 			rate: float
 				- Rate of mutation of a gene
 		"""
 
+		# Mutation rate needs to preserve the invariant
+		# Mutating a zero means that a one has to be mutated as well
+
 		mutatedGene = ''
-		for subset in gene:
-			for member in subset:
-				for chromosome in member:
-					mutationProbability = random.uniform(0, 100)
-					if mutationProbability < rate:
-						# Append mutated (toggled) bits
-						mutatedGene += str(int(not int(chromosome)))
-					else:
-						mutatedGene += chromosome
-				index = subset.index(member)
-				subset[index] = mutatedGene
-				mutated = False	
-				mutatedGene = ''
+		
 		return
 
 	def crossover(self, first, second):
