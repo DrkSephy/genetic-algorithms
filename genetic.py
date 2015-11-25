@@ -222,31 +222,7 @@ class Genetic(object):
 			binary: list
 				- The list of genes in binary representation
 		"""
-						
-	def convertToBinary(self, format, padding):
-		"""
-		Returns a binary representation of our population.
-
-		Parameters:
-			format: integer
-				- How many characters to trim from result
-			padding: integer
-				- How many bits should be padded to result
-		"""
-		for gene in self.population:
-			subset = []
-			subsetOne = []
-			subsetTwo = []
-			for value in gene[0]:
-				binary = bin(value)[format:]
-				subsetOne.append(binary)	
-			for value in gene[1]:
-				binary = bin(value)[format:]
-				subsetTwo.append(binary)
-			subset.append(subsetOne)
-			subset.append(subsetTwo)
-			self.binaryPopulation.append(subset)
-
+					
 	def fitnessAssessment(self, population):
 		"""
 		Computes the fitness of each gene in our population. 
@@ -301,8 +277,9 @@ class Genetic(object):
 		# Partition population of binary strings into respective subsets
 		self.partition()
 
-		for member in self.numericalPopulation:
-			print member
+		self.fitnessAssessment(self.numericalPopulation)
+
+		print self.frequency
 
 
 		# Compute and assign fitness of population members
