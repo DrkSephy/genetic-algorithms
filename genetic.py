@@ -155,16 +155,25 @@ class Genetic(object):
 			length: integer
 				- Length of the binary string to be constructed
 		"""
-		binaryString = ''
+		binaryString = []
 		for i in range(0, size):
+			# Append 50 zeroes to string
+			while(len(binaryString) < 50):
+				binaryString.append('0')
+
+			# Append 50 ones to string
 			while(len(binaryString) < 100):
-				# Randomly choose a value 0 or 1
-				choice = random.randint(0, 1)
-				binaryString += str(choice)
-			self.population.append(binaryString)
-			binaryString = ''
-		for j in range(0, len(self.population)):
-			print self.population[j]
+				binaryString.append('1')
+
+			# Now shuffle the positions of zeros and ones
+			random.shuffle(binaryString)
+
+			# Join our new shuffled string
+			shuffledString = ''.join(binaryString)
+
+			# Append our string into our population
+			self.population.append(shuffledString)
+			binaryString = []
 		return
 
 
