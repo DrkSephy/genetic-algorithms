@@ -308,9 +308,6 @@ class Genetic(object):
 			subset.append(subsetTwo)
 			self.binaryPopulation.append(subset)
 
-	def incrementGeneration(self, generation):
-		return self.generation + 1
-
 	def fitnessAssessment(self, population):
 		"""
 		Computes the fitness of each gene in our population. 
@@ -364,7 +361,7 @@ class Genetic(object):
 
 		# Validate population
 		self.validatePopulation()
-		
+
 		# Generate initial generation of 20 strings
 		#self.partition(self.list, 20)
 
