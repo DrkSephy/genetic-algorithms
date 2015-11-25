@@ -37,8 +37,8 @@ class Genetic(object):
 		# Binary representation of population
 		self.binaryPopulation = []
 
-		# Mutation rate = 1 / length of binary vector (14)
-		self.mutationRate = 7.142857142857142
+		# Mutation rate = 1 / length of binary string (100)
+		self.mutationRate = 1.0
 
 		# Fitness total
 		self.fitnessSum = 0
@@ -47,7 +47,7 @@ class Genetic(object):
 	#            GENETIC OPERATORS
 	#----------------------------------------
 
-	def mutation(self, gene, rate):
+	def mutation(self, gene):
 		"""
 		Performs a mutation on a given gene at a given probability rate.
 
@@ -59,11 +59,26 @@ class Genetic(object):
 		"""
 
 		# Mutation rate needs to preserve the invariant
-		# Mutating a zero means that a one has to be mutated as well
+		# Mutating a zero means that a one has to be mutated as well, 
+		# so that the number of zeroes and ones are equal
 
 		mutatedGene = ''
-		
-		return
+		mutatedOnes = 0
+		mutatedZeroes = 0
+		for chromosome in gene:
+			mutationProbability = random.uniform(0, 100)
+			if mutationProbability < self.mutationRate:
+				mutatedGene += str(int(not int(chromosome)))
+				if chromosome == '0':
+					mutatedZeroes += 1
+				else:
+					mutatedOnes += 1
+			else:
+				mutatedGene += chromosome
+		if mutatedOnes == mutatedZeroes:
+			return mutatedGene
+		else:
+			return gene
 
 	def crossover(self, first, second):
 		"""
@@ -161,6 +176,7 @@ class Genetic(object):
 		the invariant of having exactly 50 ones and 50 zeroes.
 		"""
 		for gene in self.population:
+			print gene
 			if(gene.count('0') and gene.count('1') != 50):
 				print 'Gene does not preserve invariant'
 				break
@@ -249,6 +265,9 @@ class Genetic(object):
 	def main(self):
 		# Generate population of 20 binary strings of length 100
 		self.generatePopulation(20, 100)
+
+		# test mutation
+		self.mutation('0000000110001011010000110000111011101011110100000011111110101110000001101101011010111011110000111001')
 
 		# Partition population of binary strings into respective subsets
 		self.partition()
