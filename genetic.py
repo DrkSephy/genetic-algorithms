@@ -86,13 +86,14 @@ class Genetic(object):
 
 		Parameters:
 			first: list
-				- The first subset gene to perform crossover with
+				- The first gene to perform crossover with
 			second: list
-				- The second subset gene to perform crossover with
-
-		Returns:
-
+				- The second gene to perform crossover with
 		"""
+
+		# NOTES: Crossover has to maintain the invariant that the
+		# number of zeroes and ones have to be equal
+		
 		return
 
 	def selection(self, count, population):
