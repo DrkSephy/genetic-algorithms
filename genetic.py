@@ -260,30 +260,6 @@ class Genetic(object):
 		print 'Values are identical'
 		return mismatch 
 						
-
-	def validateLength(self, binary, length):
-		"""
-		Validates that all members in binary representation are 
-		correctly padded to have equal lengths.
-
-		Parameters:
-			binary: list
-				- The binary representation of our population
-			length: integer
-				- The length that each member should be 
-		"""
-		lengthMismatch = False
-		for gene in binary:
-			for subset in gene:
-				for member in subset:
-					if len(member) != length:
-						print 'There is a length mismatch among our population'
-						lengthMismatch = True
-		print 'Lengths are identical'
-		return lengthMismatch
-
-
-
 	def convertToBinary(self, format, padding):
 		"""
 		Returns a binary representation of our population.
@@ -306,7 +282,7 @@ class Genetic(object):
 				subsetTwo.append(binary)
 			subset.append(subsetOne)
 			subset.append(subsetTwo)
-			self.binaryPopulation.append(subset)
+			self.binaryPopulation.append(subset)g
 
 	def fitnessAssessment(self, population):
 		"""
