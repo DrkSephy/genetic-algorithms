@@ -22,8 +22,11 @@ class Genetic(object):
 		# with range [1, 10000] exclusive
 		self.list = random.sample(range(1, 10000), 100)
 
-		# Complete population
+		# Complete population of binary strings
 		self.population = []
+
+		# Numerical representation of binary strings
+		self.numericalPopulation = []
 
 		# Fitness of genes
 		self.populationFitness = []
@@ -189,54 +192,23 @@ class Genetic(object):
 		return
 
 
-	def partition(self, list, size):
+	def partition(self):
 		"""
-		Generates an initial population denoted by size using
-		a list of data. 
-
-		Parameters:
-		    list: list
-		    	- A List of numbers to form the base population with
-		    size: integer 
-		    	- The cardinality of the initial population to generate
-		Returns:
-			list 
-				- A list of comprised of two subsets of length 50
+		Partitions a binary string into corresponding subsets. 
 		"""
-		for i in range(0, size):
-			subset = []
-			# First population subset of 50
+		
+		for gene in self.population:
 			subsetOne = []
-			# Second population subset of 50
 			subsetTwo = []
-			# Generate a list of indices
-			indices = [x for x in range(100)]
-			# Shuffle the indices
-		 	random.shuffle(indices)
-		 	# Populate our lists
-			for index in indices:
-				# Randomly choose a subset to insert into
-				choice = random.randint(0, 1)
-				# We insert into the first subset
-				if(choice == 0):
-					if(len(subsetOne) == 50):
-						# First subset is full, insert into second
-						subsetTwo.append(list[index])
-					else:
-						# First subset has space, insert
-						subsetOne.append(list[index])	
-				else:
-					if(len(subsetTwo) == 50):
-						# Second subset is full, insert into first
-						subsetOne.append(list[index])
-					else:
-						# Second subset has space, insert
-						subsetTwo.append(list[index])
-
-			# Append populations 
+			subset = []
+			for (i, chromosome) in enumerate(gene):
+				if chromosome == '0':
+					subsetOne.append(self.list[i])
+				if chromosome == '1':
+					subsetTwo.append(self.list[i])
 			subset.append(subsetOne)
 			subset.append(subsetTwo)
-			self.population.append(subset)
+			self.numericalPopulation.append(subset)
 		return
 
 	def validateConversions(self):
@@ -273,7 +245,7 @@ class Genetic(object):
 				subsetTwo.append(binary)
 			subset.append(subsetOne)
 			subset.append(subsetTwo)
-			self.binaryPopulation.append(subset)g
+			self.binaryPopulation.append(subset)
 
 	def fitnessAssessment(self, population):
 		"""
@@ -326,11 +298,12 @@ class Genetic(object):
 		# Generate population of 20 binary strings of length 100
 		self.generatePopulation(20, 100)
 
-		# Validate population
-		self.validatePopulation()
+		# Partition population of binary strings into respective subsets
+		self.partition()
 
-		# Generate initial generation of 20 strings
-		#self.partition(self.list, 20)
+		for member in self.numericalPopulation:
+			print member
+
 
 		# Compute and assign fitness of population members
 		#self.fitnessAssessment(self.population)
