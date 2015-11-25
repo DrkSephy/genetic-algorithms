@@ -145,6 +145,29 @@ class Genetic(object):
 				print i
 		return
 
+	def generatePopulation(self, size, length):
+		"""
+		Generates binary strings representing the initial population.
+
+		Parameters:
+			size: integer
+				- How many binary strings to generate
+			length: integer
+				- Length of the binary string to be constructed
+		"""
+		binaryString = ''
+		for i in range(0, size):
+			while(len(binaryString) < 100):
+				# Randomly choose a value 0 or 1
+				choice = random.randint(0, 1)
+				binaryString += str(choice)
+			self.population.append(binaryString)
+			binaryString = ''
+		for j in range(0, len(self.population)):
+			print self.population[j]
+		return
+
+
 	def partition(self, list, size):
 		"""
 		Generates an initial population denoted by size using
@@ -315,20 +338,21 @@ class Genetic(object):
 	#----------------------------------------
 
 	def main(self):
+		self.generatePopulation(20, 100)
 		# Generate initial generation of 20 strings
-		self.partition(self.list, 20)
+		#self.partition(self.list, 20)
 
 		# Compute and assign fitness of population members
-		self.fitnessAssessment(self.population)
+		#self.fitnessAssessment(self.population)
 
 		# Check if algorithm converged
 		#evaluateConvergence(frequency, 500)
 
 		# Generate binary representation of population
-		self.convertToBinary(2, 14)
+		#self.convertToBinary(2, 14)
 
 		# Select new individuals to form the new generation
-		self.selection(10, self.population)
+		#self.selection(10, self.population)
 
 		return
 
