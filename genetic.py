@@ -176,6 +176,18 @@ class Genetic(object):
 			binaryString = []
 		return
 
+	def validatePopulation(self):
+		"""
+		Tests whether all strings in our population adhere to 
+		the invariant of having exactly 50 ones and 50 zeroes.
+		"""
+		for gene in self.population:
+			if(gene.count('0') and gene.count('1') != 50):
+				print 'Gene does not preserve invariant'
+				break
+		print 'Gene upholds invariant!'
+		return
+
 
 	def partition(self, list, size):
 		"""
@@ -347,7 +359,12 @@ class Genetic(object):
 	#----------------------------------------
 
 	def main(self):
+		# Generate population of 20 binary strings of length 100
 		self.generatePopulation(20, 100)
+
+		# Validate population
+		self.validatePopulation()
+		
 		# Generate initial generation of 20 strings
 		#self.partition(self.list, 20)
 
