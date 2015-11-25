@@ -133,21 +133,6 @@ class Genetic(object):
 	#             HELPER METHODS      
 	#----------------------------------------
 
-	def duplicateCheck(self, list, value):
-		"""
-		Returns all instances of value in a list.
-
-		Parameters:
-			list: list
-				- List of values to check through
-			value: string
-				- Binary string to search within the list
-		"""
-		for i, j in enumerate(list):
-			if j == value:
-				print i
-		return
-
 	def generatePopulation(self, size, length):
 		"""
 		Generates binary strings representing the initial population.
