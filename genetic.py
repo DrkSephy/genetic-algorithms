@@ -239,7 +239,7 @@ class Genetic(object):
 			self.population.append(subset)
 		return
 
-	def validateConversions(self, population, binary):
+	def validateConversions(self):
 		"""
 		Validates that each value in the population has the correct
 		binary representation.
@@ -250,15 +250,6 @@ class Genetic(object):
 			binary: list
 				- The list of genes in binary representation
 		"""
-		mismatch = False
-		for gene in population:
-			for subset in gene:
-				for member in subset:
-					if (member) != int(binary[population.index(gene)][gene.index(subset)][subset.index(member)], 2):
-						print 'There was a mismatch!'
-						mismatch = True
-		print 'Values are identical'
-		return mismatch 
 						
 	def convertToBinary(self, format, padding):
 		"""
