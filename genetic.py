@@ -31,8 +31,11 @@ class Genetic(object):
 		# Fitness of genes
 		self.populationFitness = []
 
-		# Frequency Table for convergence
+		# Frequency
 		self.frequency = {}
+
+		# Frequency table
+		self.frequencies = []
 
 		# Binary representation of population
 		self.binaryPopulation = []
@@ -258,6 +261,15 @@ class Genetic(object):
 				print "We've reached a convergence value!"
 				print "The gene: " + str(population[key]) + " has converged with a value of: " + str(value)
 		return
+
+	def buildFrequencyTable(self):
+		"""
+		Appends frequency dictionary to list of frequencies.
+		"""
+		self.frequencies.append(self.frequency)
+		self.frequency = {}
+		return
+
 
 	#----------------------------------------
 	#       	   MAIN FUNCTION     
