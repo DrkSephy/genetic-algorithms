@@ -93,8 +93,10 @@ class Genetic(object):
 
 		# NOTES: Crossover has to maintain the invariant that the
 		# number of zeroes and ones have to be equal
-		for gene in self.population:
-			print gene
+		parentOne = self.population[random.randint(0, 9)]
+		parentTwo = self.population[random.randint(0, 9)]
+		print parentOne
+		print parentTwo
 		return
 
 	def selection(self, count, population):
@@ -277,21 +279,17 @@ class Genetic(object):
 		# Generate population of 20 binary strings of length 100
 		self.generatePopulation(20, 100)
 
-		print self.frequency
-
-		# test mutation
-		# self.mutation('0000000110001011010000110000111011101011110100000011111110101110000001101101011010111011110000111001')
-
 		# Partition population of binary strings into respective subsets
 		self.partition()
 
 		# Generate fitness of each string
 		self.fitnessAssessment(self.numericalPopulation)
 
-		print self.frequency
-
 		# Call selection to pick 10 weighed strings
 		self.selection(10, self.population)
+
+		# Test crossover
+		self.crossover()
 
 		return
 
