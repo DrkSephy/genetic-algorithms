@@ -20,7 +20,9 @@ class Genetic(object):
 
 		# Generate a list of 100 random integers (no duplicates)
 		# with range [1, 10000] exclusive
-		self.list = random.sample(range(1, 10000), 100)
+		# self.list = random.sample(range(1, 10000), 100)
+		# Generate a list of 100 integers using an LCG
+		self.list = self.linearCongruentialGenerator(5, 100, 3, 2, 10000)
 
 		# Complete population of binary strings
 		self.population = []
@@ -177,6 +179,13 @@ class Genetic(object):
 	#             HELPER METHODS      
 	#----------------------------------------
 
+	def linearCongruentialGenerator(self, seed, count, a, c, m):
+		numbers = []
+		for i in xrange(count):
+			seed = (a * seed + c) % m
+			numbers.append(seed)
+		return numbers
+
 	def generatePopulation(self, size, length):
 		"""
 		Generates binary strings representing the initial population.
@@ -311,7 +320,7 @@ class Genetic(object):
 		self.crossover()
 
 		# Breed 50 generations
-		while self.bestFitness > 5:
+		while self.generation < 10000:
 			print 'Processing generation: ' + str(self.generation)
 
 			# Partition new generation of genes
@@ -323,16 +332,19 @@ class Genetic(object):
 			if self.frequency[19] < self.bestFitness:
 				self.bestFitness = self.frequency[19]
 				if self.bestFitness < 5:
-					print 'Found a minimized value at generation: ' + str(self.generation)
+					print 'Found a minimized value of: ' + str(self.bestFitness) + ' at generation: ' + str(self.generation)
 					print '\n'
 					print self.frequency
+					break				
 
 			# Select 10 weighted strings to form new population with
 			self.selection(10, self.population)		
 
 			# Perform crossover to form a new generation
 			self.crossover()	
-
+		print 'Found a minimized value of: ' + str(self.bestFitness) + ' at generation: ' + str(self.generation)
+		print '\n'
+		print self.frequency
 		return
 
 genetic = Genetic()
