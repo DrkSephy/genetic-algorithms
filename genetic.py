@@ -4,6 +4,7 @@
 
 import random
 import pprint
+from prettytable import PrettyTable
 
 class Genetic(object):
 
@@ -287,7 +288,7 @@ class Genetic(object):
 	#       	 STATS FUNCTIONS
 	#----------------------------------------
 		
-	def average(list):
+	def average(self, list):
 		"""
 		Returns the average out of a list of values.
 		"""
@@ -296,29 +297,29 @@ class Genetic(object):
 			total += float(value['generation'])
 		return total / len(list)
 
-	def median(list):
+	def median(self, list):
 		"""
 		Returns the median out of a list of values.
 		"""
 		values = []
 		for item in list:
-			values.append(item['generation'])
+			values.append(float(item['generation']))
 		sortedList = sorted(values)
 		length = len(sortedList)
 		if not length % 2:
 			return (sortedList[length / 2] + sortedList[length / 2 - 1]) / 2.0
 		return sortedList[length / 2]
 
-	def maximum(list):
+	def maximum(self, list):
 		"""
 		Returns the maximum out of a list of values.
 		"""
 		values = []
 		for item in list:
-			values.append(item['generation'])
+			values.append(float(item['generation']))
 		return max(values)
 
-	def range(list):
+	def range(self, list):
 		"""
 		Returns the range out of a list of values.
 		"""
@@ -327,7 +328,7 @@ class Genetic(object):
 			values.append(float(item['generation']))
 		return max(values) - min(values)
 
-	def minimum(list):
+	def minimum(self, list):
 		"""
 		Returns the minimum out of a list of values.
 		"""
@@ -403,7 +404,15 @@ class Genetic(object):
 				# Perform crossover to form a new generation
 				self.crossover()	
 
-		print self.convergenceStats
+		table = PrettyTable()
+		x = PrettyTable(["Parameter", "Value"])
+		x.padding_width = 1
+		x.add_row(["Min", self.minimum(self.convergenceStats)])
+		x.add_row(["Max", self.maximum(self.convergenceStats)])
+		x.add_row(["Med", self.median(self.convergenceStats)])
+		x.add_row(["Rng", self.range(self.convergenceStats)])
+		x.add_row(["Avg", self.average(self.convergenceStats)])
+		print x
 
 		return
 
