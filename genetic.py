@@ -2,15 +2,6 @@
 # -*- MIT License (c) 2015 David Leonard -*-
 # -*- drksephy.github.io -*-
 
-# Implementation notes:
-# 	* Each gene is composed of two equal length
-# 	  lists, filled with elements randomly
-# 	* Fitness function will be the closeness 
-# 	  of the sum of the two lists
-#   * Choose the surviving genes and cross them
-#     over using the roulette method
-#   * Repeat until convergence
-
 import random
 import pprint
 
@@ -21,14 +12,12 @@ class Genetic(object):
 		# Generate a list of 100 random integers (no duplicates)
 		# with range [1, 10000] exclusive
 		# self.list = random.sample(range(1, 10000), 100)
+		
 		# Generate a list of 100 integers using an LCG
 		self.list = self.linearCongruentialGenerator(5, 100, 3, 2, 10000)
 
 		# Complete population of binary strings
 		self.population = []
-
-		# Population of selected genes
-		self.selectedGenes = []
 
 		# Numerical representation of binary strings
 		self.numericalPopulation = []
@@ -333,10 +322,14 @@ class Genetic(object):
 
 			# Perform crossover to form a new generation
 			self.crossover()	
+
 		print 'Found a minimized value of: ' + str(self.bestFitness) + ' at generation: ' + str(self.generation)
 		print '\n'
 		print self.frequency
 		return
 
+# Instantiate class
 genetic = Genetic()
+
+# Run algorithm
 genetic.main()
