@@ -282,9 +282,62 @@ class Genetic(object):
 		for i in range(0, 20):
 			table[i] = []
 		return table
-		
+
 	#----------------------------------------
-	#       	   MAIN FUNCTION     
+	#       	 STATS FUNCTIONS
+	#----------------------------------------
+		
+	def average(list):
+		"""
+		Returns the average out of a list of values.
+		"""
+		total = 0.0
+		for value in list:
+			total += float(value['generation'])
+		return total / len(list)
+
+	def median(list):
+		"""
+		Returns the median out of a list of values.
+		"""
+		values = []
+		for item in list:
+			values.append(item['generation'])
+		sortedList = sorted(values)
+		length = len(sortedList)
+		if not length % 2:
+			return (sortedList[length / 2] + sortedList[length / 2 - 1]) / 2.0
+		return sortedList[length / 2]
+
+	def maximum(list):
+		"""
+		Returns the maximum out of a list of values.
+		"""
+		values = []
+		for item in list:
+			values.append(item['generation'])
+		return max(values)
+
+	def range(list):
+		"""
+		Returns the range out of a list of values.
+		"""
+		values = []
+		for item in list:
+			values.append(float(item['generation']))
+		return max(values) - min(values)
+
+	def minimum(list):
+		"""
+		Returns the minimum out of a list of values.
+		"""
+		values = []
+		for item in list:
+			values.append(float(item['generation']))
+		return min(values)
+
+	#----------------------------------------
+	#       	  MAIN FUNCTION
 	#----------------------------------------
 
 	def main(self):
