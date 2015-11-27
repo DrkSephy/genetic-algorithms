@@ -43,6 +43,9 @@ class Genetic(object):
 		# Track best fitness
 		self.bestFitness = 999999999
 
+		# Gather data on convergence 
+		self.convergenceStats = []
+
 	#----------------------------------------
 	#            GENETIC OPERATORS
 	#----------------------------------------
@@ -285,47 +288,70 @@ class Genetic(object):
 	#----------------------------------------
 
 	def main(self):
-		# Generate inital population of 20 binary strings of length 100
-		self.generatePopulation(20, 100)
+		for i in xrange(0, 9):
+			# Clear existing population
+			self.population = []
 
-		# Partition population of binary strings into respective subsets
-		self.partition()
+			# Clear existing best fitness
+			self.bestFitness = 999999999
 
-		# Generate fitness of each string
-		self.fitnessAssessment(self.numericalPopulation)
+			# Numerical representation of binary strings
+			self.numericalPopulation = []
 
-		# Call selection to pick 10 weighed strings
-		self.selection(self.population)
+			# Fitness of genes
+			self.populationFitness = []
 
-		# Test crossover
-		self.crossover()
+			# Frequency
+			self.frequency =  {}
 
-		while self.generation < 10000:
-			print 'Processing generation: ' + str(self.generation)
+			# Binary representation of population
+			self.binaryPopulation = []
 
-			# Partition new generation of genes
-			self.partition()
+			# Fitness total
+			self.fitnessSum = 0			
 
-			# Compute fitness of each new gene
-			self.fitnessAssessment(self.numericalPopulation)
-			
-			if self.frequency[19] < self.bestFitness:
-				self.bestFitness = self.frequency[19]
-				if self.bestFitness < 5:
-					print 'Found a minimized value of: ' + str(self.bestFitness) + ' at generation: ' + str(self.generation)
-					print '\n'
-					print self.frequency
-					break				
+			# Generate inital population of 20 binary strings of length 100
+			self.generatePopulation(20, 100)
 
-			# Select 10 weighted strings to form new population with
-			self.selection(self.population)		
+			# Set generation counter to 1
+			self.generation = 1
 
-			# Perform crossover to form a new generation
-			self.crossover()	
+			# Run genetic algorithm until convergence
+			while self.generation < 10000:
+				# Log generation being tested
+				print 'Processing generation: ' + str(self.generation)
 
-		print 'Found a minimized value of: ' + str(self.bestFitness) + ' at generation: ' + str(self.generation)
-		print '\n'
-		print self.frequency
+				# Partition new generation of genes
+				self.partition()
+
+				# Compute fitness of each new gene
+				self.fitnessAssessment(self.numericalPopulation)
+				
+				if self.generation == 10000:
+					statistics = {}
+					statistics['generation'] = self.generation
+					statistics['value'] = self.bestFitness
+					statistics['iteration'] = i
+					self.convergenceStats.append(statistics)
+				else: 
+					if self.frequency[19] < self.bestFitness:
+						self.bestFitness = self.frequency[19]
+						if self.bestFitness < 5:
+							statistics = {}
+							statistics['generation'] = self.generation
+							statistics['value'] = self.bestFitness
+							statistics['iteration'] = i
+							self.convergenceStats.append(statistics)
+							break				
+
+				# Select 10 weighted strings to form new population with
+				self.selection(self.population)		
+
+				# Perform crossover to form a new generation
+				self.crossover()	
+
+		print self.convergenceStats
+
 		return
 
 # Instantiate class
