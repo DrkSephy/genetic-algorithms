@@ -10,10 +10,6 @@ class Genetic(object):
 
 	def __init__(self):
 
-		# Generate a list of 100 random integers (no duplicates)
-		# with range [1, 10000] exclusive
-		# self.list = random.sample(range(1, 10000), 100)
-		
 		# Generate a list of 100 integers using an LCG
 		self.list = self.linearCongruentialGenerator(5, 100, 3, 2, 10000)
 
@@ -64,11 +60,6 @@ class Genetic(object):
 			rate: float
 				- Rate of mutation of a gene
 		"""
-
-		# Mutation rate needs to preserve the invariant
-		# Mutating a zero means that a one has to be mutated as well, 
-		# so that the number of zeroes and ones are equal
-
 		mutatedGene = ''
 		mutatedOnes = 0
 		mutatedZeroes = 0
@@ -97,9 +88,6 @@ class Genetic(object):
 			second: list
 				- The second gene to perform crossover with
 		"""
-
-		# NOTES: Crossover has to maintain the invariant that the
-		# number of zeroes and ones have to be equal
 		newGeneration = []
 		while len(newGeneration) < count:
 			parentOne = self.selection(self.population)
@@ -151,13 +139,8 @@ class Genetic(object):
 
 		# Generate probability intervals
 		probabilities = [round(sum(weightedFitness[:i + 1]) * 100, 2) for i in range(len(weightedFitness))]
-
-		# Generate new population
-		# NOTE: We might want to only return two individuals at a time
-		# to pass into the crossover function. For now, we generate 
-		# an entire new population which we will then randomly select 
-		# two individuals each time to perform crossover with. 
 		
+		# Select an individual using weighted probabilities		
 		probability = random.uniform(0, 100)
 		for (n, individual) in enumerate(population):
 			if probability <= probabilities[n]:
@@ -218,7 +201,6 @@ class Genetic(object):
 		"""
 		Partitions a binary string into corresponding subsets. 
 		"""
-		
 		population = []
 		for gene in self.population:
 			subsetOne = []
