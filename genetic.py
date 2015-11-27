@@ -49,6 +49,9 @@ class Genetic(object):
 		# Current generation
 		self.generation = 1
 
+		# Track best fitness
+		self.bestFitness = 999999999
+
 	#----------------------------------------
 	#            GENETIC OPERATORS
 	#----------------------------------------
@@ -113,14 +116,14 @@ class Genetic(object):
 				if successfulFirstChild == False:
 					childOne = parentOne[0 : crossoverPoint + 1] + parentTwo[crossoverPoint + 1: 100]
 					if self.validateGene(childOne):
-						newGeneration.append(childOne)
+						newGeneration.append(self.mutation(childOne))
 						successfulFirstChild = True
 
 				# Check if we generate a second child correctly
 				if successfulSecondChild == False:
 					childTwo = parentTwo[0 : crossoverPoint + 1] + parentOne[crossoverPoint + 1: 100]
 					if self.validateGene(childTwo):
-						newGeneration.append(childTwo)
+						newGeneration.append(self.mutation(childTwo))
 						successfulSecondChild = True
 
 		# Replace old population with new generation
@@ -256,7 +259,6 @@ class Genetic(object):
 		
 		# Sort list of differences in ascending order
 		sortedDifferences = sorted(differences)
-		print sortedDifferences
 		
 		# Assign fitness to each gene based on how many 
 		# other members a gene is less than
@@ -309,14 +311,21 @@ class Genetic(object):
 		self.crossover()
 
 		# Breed 50 generations
-		while self.generation < 10:
+		while self.bestFitness > 5:
+			print 'Processing generation: ' + str(self.generation)
+
 			# Partition new generation of genes
 			self.partition()
 
 			# Compute fitness of each new gene
 			self.fitnessAssessment(self.numericalPopulation)
-
-			print self.frequency
+			
+			if self.frequency[19] < self.bestFitness:
+				self.bestFitness = self.frequency[19]
+				if self.bestFitness < 5:
+					print 'Found a minimized value at generation: ' + str(self.generation)
+					print '\n'
+					print self.frequency
 
 			# Select 10 weighted strings to form new population with
 			self.selection(10, self.population)		
