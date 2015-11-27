@@ -25,6 +25,9 @@ class Genetic(object):
 		# Complete population of binary strings
 		self.population = []
 
+		# Population of selected genes
+		self.selectedGenes = []
+
 		# Numerical representation of binary strings
 		self.numericalPopulation = []
 
@@ -93,10 +96,16 @@ class Genetic(object):
 
 		# NOTES: Crossover has to maintain the invariant that the
 		# number of zeroes and ones have to be equal
-		parentOne = self.population[random.randint(0, 9)]
-		parentTwo = self.population[random.randint(0, 9)]
-		print parentOne
-		print parentTwo
+		newGeneration = []
+		while len(newGeneration) < 20:
+			parentOne = self.selectedGenes[random.randint(0, 9)]
+			parentTwo = self.selectedGenes[random.randint(0, 9)]
+			crossoverPoint = random.randint(0, 99)
+			childOne = parentOne[0:crossoverPoint] + parentTwo[crossoverPoint + 1: 99]
+			childTwo = parentTwo[0:crossoverPoint] + parentOne[crossoverPoint + 1: 99]
+			newGeneration.append(childOne)
+			newGeneration.append(childTwo)
+		self.population = newGeneration
 		return
 
 	def selection(self, count, population):
@@ -136,7 +145,7 @@ class Genetic(object):
 					break
 
 		# Replace current population
-		self.population = newPopulation
+		self.selectedGenes = newPopulation
 		return
 		
 	#----------------------------------------
@@ -290,6 +299,9 @@ class Genetic(object):
 
 		# Test crossover
 		self.crossover()
+
+		for gene in self.population:
+			print gene
 
 		return
 
