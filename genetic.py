@@ -32,10 +32,7 @@ class Genetic(object):
 		self.populationFitness = []
 
 		# Frequency
-		self.frequency = {}
-
-		# Frequency table
-		self.frequencies = []
+		self.frequency = self.frequencyTable()
 
 		# Binary representation of population
 		self.binaryPopulation = []
@@ -249,7 +246,7 @@ class Genetic(object):
 			# Append fitness of gene to a fitness list
 			self.populationFitness.append(fitness)
 			# Store fitness:difference 
-			self.frequency[fitness] = difference
+			self.frequency[fitness].append(difference)
 		return
 
 	def evaluateConvergence(self, frequency, convergence):
@@ -263,15 +260,15 @@ class Genetic(object):
 				print "The gene: " + str(population[key]) + " has converged with a value of: " + str(value)
 		return
 
-	def buildFrequencyTable(self):
+	def frequencyTable(self):
 		"""
-		Appends frequency dictionary to list of frequencies.
+		Initializes the frequency table.
 		"""
-		self.frequencies.append(self.frequency)
-		self.frequency = {}
-		return
-
-
+		table = {}
+		for i in range(0, 20):
+			table[i] = []
+		return table
+		
 	#----------------------------------------
 	#       	   MAIN FUNCTION     
 	#----------------------------------------
@@ -279,6 +276,8 @@ class Genetic(object):
 	def main(self):
 		# Generate population of 20 binary strings of length 100
 		self.generatePopulation(20, 100)
+
+		print self.frequency
 
 		# test mutation
 		# self.mutation('0000000110001011010000110000111011101011110100000011111110101110000001101101011010111011110000111001')
@@ -289,17 +288,10 @@ class Genetic(object):
 		# Generate fitness of each string
 		self.fitnessAssessment(self.numericalPopulation)
 
-		# Examine initial generated population
-		for gene in self.population:
-			print gene
+		print self.frequency
 
 		# Call selection to pick 10 weighed strings
 		self.selection(10, self.population)
-
-		# Verify new population to be bred
-		print '---------crossover-----------'
-		self.crossover()
-
 
 		return
 
