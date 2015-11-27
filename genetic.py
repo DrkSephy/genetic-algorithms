@@ -46,6 +46,9 @@ class Genetic(object):
 		# Fitness total
 		self.fitnessSum = 0
 
+		# Current generation
+		self.generation = 1
+
 	#----------------------------------------
 	#            GENETIC OPERATORS
 	#----------------------------------------
@@ -105,7 +108,7 @@ class Genetic(object):
 			while successfulFirstChild == False and successfulSecondChild == False:
 				# Get a random crossover point
 				crossoverPoint = random.randint(0, 99)
-				
+
 				# Check if we generate a first child correctly
 				if successfulFirstChild == False:
 					childOne = parentOne[0 : crossoverPoint + 1] + parentTwo[crossoverPoint + 1: 100]
@@ -120,7 +123,11 @@ class Genetic(object):
 						newGeneration.append(childTwo)
 						successfulSecondChild = True
 
+		# Replace old population with new generation
 		self.population = newGeneration
+
+		# Increment generation counter
+		self.generation += 1
 		return
 
 	def selection(self, count, population):
@@ -225,18 +232,6 @@ class Genetic(object):
 			subset.append(subsetTwo)
 			self.numericalPopulation.append(subset)
 		return
-
-	def validateConversions(self):
-		"""
-		Validates that each value in the population has the correct
-		binary representation.
-
-		Parameters:
-			population: list
-				- The list of genes consisting of arrays of integers
-			binary: list
-				- The list of genes in binary representation
-		"""
 					
 	def fitnessAssessment(self, population):
 		"""
@@ -309,9 +304,6 @@ class Genetic(object):
 
 		# Test crossover
 		self.crossover()
-
-		for gene in self.population:
-			print str(gene.count('0')) + ' : ' + str(gene.count('1'))
 
 		return
 
