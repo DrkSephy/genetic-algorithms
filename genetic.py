@@ -87,7 +87,7 @@ class Genetic(object):
 		else:
 			return gene
 
-	def crossover(self):
+	def crossover(self, count):
 		"""
 		Performs crossover of two genes using the roulette wheel selection.
 
@@ -101,7 +101,7 @@ class Genetic(object):
 		# NOTES: Crossover has to maintain the invariant that the
 		# number of zeroes and ones have to be equal
 		newGeneration = []
-		while len(newGeneration) < 20:
+		while len(newGeneration) < count:
 			parentOne = self.selection(self.population)
 			parentTwo = self.selection(self.population)
 			successfulFirstChild = False
@@ -345,7 +345,7 @@ class Genetic(object):
 	#----------------------------------------
 
 	def main(self):
-		for i in xrange(0, 3):
+		for i in xrange(0, 9):
 			# Clear existing population
 			self.population = []
 
@@ -364,20 +364,25 @@ class Genetic(object):
 			# Binary representation of population
 			self.binaryPopulation = []
 
+			# Desired population size
+			self.populationSize = 20
+
 			# Fitness total
 			self.fitnessSum = 0			
 
 			# Generate inital population of 20 binary strings of length 100
-			self.generatePopulation(20, 100)
+			self.generatePopulation(self.populationSize, 100)
 
 			# Set generation counter to 1
 			self.generation = 1
+
+			self.mutationRate = 1.0
 
 			# Run genetic algorithm until convergence
 			while self.generation < 10000:
 				# Log generation being tested
 				print 'Processing generation: ' + str(self.generation)
-
+	
 				# Partition new generation of genes
 				self.partition()
 
@@ -391,8 +396,8 @@ class Genetic(object):
 					statistics['iteration'] = i
 					self.convergenceStats.append(statistics)
 				else: 
-					if self.frequency[19] < self.bestFitness:
-						self.bestFitness = self.frequency[19]
+					if self.frequency[len(self.frequency) - 1] < self.bestFitness:
+						self.bestFitness = self.frequency[len(self.frequency) - 1]
 						if self.bestFitness < 5:
 							statistics = {}
 							statistics['generation'] = self.generation
@@ -405,7 +410,7 @@ class Genetic(object):
 				self.selection(self.population)		
 
 				# Perform crossover to form a new generation
-				self.crossover()	
+				self.crossover(self.populationSize)	
 
 		table = PrettyTable()
 		x = PrettyTable(["Statistic", "Generation Count", "Convergence Value", "Mutation Rate", "Population Size"])
