@@ -106,8 +106,8 @@ class Genetic(object):
 		# number of zeroes and ones have to be equal
 		newGeneration = []
 		while len(newGeneration) < 20:
-			parentOne = self.selectedGenes[random.randint(0, 9)]
-			parentTwo = self.selectedGenes[random.randint(0, 9)]
+			parentOne = self.selection(self.population)
+			parentTwo = self.selection(self.population)
 			successfulFirstChild = False
 			successfulSecondChild = False
 			while successfulFirstChild == False and successfulSecondChild == False:
@@ -135,7 +135,7 @@ class Genetic(object):
 		self.generation += 1
 		return
 
-	def selection(self, count, population):
+	def selection(self, population):
 		"""
 		Selects the next set of strings that participate in the
 		formation of the next population.
@@ -143,8 +143,6 @@ class Genetic(object):
 		Parameters:
 			frequency - list
 				- The entire population of genes
-			count - integer
-				- How many individuals we want to keep
 		"""
 
 		# Compute total fitness of population
@@ -163,17 +161,11 @@ class Genetic(object):
 		# to pass into the crossover function. For now, we generate 
 		# an entire new population which we will then randomly select 
 		# two individuals each time to perform crossover with. 
-		newPopulation = []
-		for i in range(count):
-			probability = random.uniform(0, 100)
-			for (n, individual) in enumerate(population):
-				if probability <= probabilities[n]:
-					newPopulation.append(individual)
-					break
-
-		# Replace current population
-		self.selectedGenes = newPopulation
-		return
+		
+		probability = random.uniform(0, 100)
+		for (n, individual) in enumerate(population):
+			if probability <= probabilities[n]:
+				return individual
 		
 	#----------------------------------------
 	#             HELPER METHODS      
@@ -314,12 +306,11 @@ class Genetic(object):
 		self.fitnessAssessment(self.numericalPopulation)
 
 		# Call selection to pick 10 weighed strings
-		self.selection(10, self.population)
+		self.selection(self.population)
 
 		# Test crossover
 		self.crossover()
 
-		# Breed 50 generations
 		while self.generation < 10000:
 			print 'Processing generation: ' + str(self.generation)
 
@@ -338,7 +329,7 @@ class Genetic(object):
 					break				
 
 			# Select 10 weighted strings to form new population with
-			self.selection(10, self.population)		
+			self.selection(self.population)		
 
 			# Perform crossover to form a new generation
 			self.crossover()	
