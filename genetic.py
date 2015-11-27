@@ -100,11 +100,26 @@ class Genetic(object):
 		while len(newGeneration) < 20:
 			parentOne = self.selectedGenes[random.randint(0, 9)]
 			parentTwo = self.selectedGenes[random.randint(0, 9)]
-			crossoverPoint = random.randint(0, 99)
-			childOne = parentOne[0:crossoverPoint] + parentTwo[crossoverPoint + 1: 99]
-			childTwo = parentTwo[0:crossoverPoint] + parentOne[crossoverPoint + 1: 99]
-			newGeneration.append(childOne)
-			newGeneration.append(childTwo)
+			successfulFirstChild = False
+			successfulSecondChild = False
+			while successfulFirstChild == False and successfulSecondChild == False:
+				# Get a random crossover point
+				crossoverPoint = random.randint(0, 99)
+				
+				# Check if we generate a first child correctly
+				if successfulFirstChild == False:
+					childOne = parentOne[0 : crossoverPoint + 1] + parentTwo[crossoverPoint + 1: 100]
+					if self.validateGene(childOne):
+						newGeneration.append(childOne)
+						successfulFirstChild = True
+
+				# Check if we generate a second child correctly
+				if successfulSecondChild == False:
+					childTwo = parentTwo[0 : crossoverPoint + 1] + parentOne[crossoverPoint + 1: 100]
+					if self.validateGene(childTwo):
+						newGeneration.append(childTwo)
+						successfulSecondChild = True
+
 		self.population = newGeneration
 		return
 
@@ -183,18 +198,13 @@ class Genetic(object):
 			binaryString = []
 		return
 
-	def validatePopulation(self):
+	def validateGene(self, gene):
 		"""
-		Tests whether all strings in our population adhere to 
-		the invariant of having exactly 50 ones and 50 zeroes.
+		Tests whether a gene has an equal number of zeroes and ones. 
 		"""
-		for gene in self.population:
-			print gene
-			if(gene.count('0') and gene.count('1') != 50):
-				print 'Gene does not preserve invariant'
-				break
-		print 'Gene upholds invariant!'
-		return
+		if(gene.count('0') and gene.count('1') != 50):
+			return False
+		return True
 
 
 	def partition(self):
@@ -301,7 +311,7 @@ class Genetic(object):
 		self.crossover()
 
 		for gene in self.population:
-			print gene
+			print str(gene.count('0')) + ' : ' + str(gene.count('1'))
 
 		return
 
