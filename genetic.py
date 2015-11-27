@@ -35,6 +35,9 @@ class Genetic(object):
 		# Mutation rate = 1 / length of binary string (100)
 		self.mutationRate = 1.0
 
+		# Desired size of population
+		self.populationSize = 20
+
 		# Fitness total
 		self.fitnessSum = 0
 
@@ -342,7 +345,7 @@ class Genetic(object):
 	#----------------------------------------
 
 	def main(self):
-		for i in xrange(0, 9):
+		for i in xrange(0, 3):
 			# Clear existing population
 			self.population = []
 
@@ -356,7 +359,7 @@ class Genetic(object):
 			self.populationFitness = []
 
 			# Frequency
-			self.frequency =  {}
+			self.frequency = {}
 
 			# Binary representation of population
 			self.binaryPopulation = []
@@ -405,13 +408,13 @@ class Genetic(object):
 				self.crossover()	
 
 		table = PrettyTable()
-		x = PrettyTable(["Parameter", "Value"])
+		x = PrettyTable(["Statistic", "Generation Count", "Convergence Value", "Mutation Rate", "Population Size"])
 		x.padding_width = 1
-		x.add_row(["Min", self.minimum(self.convergenceStats)])
-		x.add_row(["Max", self.maximum(self.convergenceStats)])
-		x.add_row(["Med", self.median(self.convergenceStats)])
-		x.add_row(["Rng", self.range(self.convergenceStats)])
-		x.add_row(["Avg", self.average(self.convergenceStats)])
+		x.add_row(["Min", self.minimum(self.convergenceStats), 0, self.mutationRate, self.populationSize])
+		x.add_row(["Max", self.maximum(self.convergenceStats), 0, self.mutationRate, self.populationSize])
+		x.add_row(["Med", self.median(self.convergenceStats),  0, self.mutationRate, self.populationSize])
+		x.add_row(["Rng", self.range(self.convergenceStats),   0, self.mutationRate, self.populationSize])
+		x.add_row(["Avg", self.average(self.convergenceStats), 0, self.mutationRate, self.populationSize])
 		print x
 
 		return
