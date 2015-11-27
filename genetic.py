@@ -35,7 +35,7 @@ class Genetic(object):
 		self.populationFitness = []
 
 		# Frequency
-		self.frequency = self.frequencyTable()
+		self.frequency =  {}
 
 		# Binary representation of population
 		self.binaryPopulation = []
@@ -219,6 +219,7 @@ class Genetic(object):
 		Partitions a binary string into corresponding subsets. 
 		"""
 		
+		population = []
 		for gene in self.population:
 			subsetOne = []
 			subsetTwo = []
@@ -230,7 +231,8 @@ class Genetic(object):
 					subsetTwo.append(self.list[i])
 			subset.append(subsetOne)
 			subset.append(subsetTwo)
-			self.numericalPopulation.append(subset)
+			population.append(subset)
+		self.numericalPopulation = population
 		return
 					
 	def fitnessAssessment(self, population):
@@ -254,15 +256,16 @@ class Genetic(object):
 		
 		# Sort list of differences in ascending order
 		sortedDifferences = sorted(differences)
+		print sortedDifferences
 		
 		# Assign fitness to each gene based on how many 
 		# other members a gene is less than
-		for difference in sortedDifferences:
-			fitness = len(sortedDifferences) - 1 - sortedDifferences.index(difference)
+		for (position, difference) in enumerate(sortedDifferences):
+			fitness = len(sortedDifferences) - position - 1
 			# Append fitness of gene to a fitness list
 			self.populationFitness.append(fitness)
 			# Store fitness:difference 
-			self.frequency[fitness].append(difference)
+			self.frequency[fitness] = difference
 		return
 
 	def evaluateConvergence(self, frequency, convergence):
@@ -290,7 +293,7 @@ class Genetic(object):
 	#----------------------------------------
 
 	def main(self):
-		# Generate population of 20 binary strings of length 100
+		# Generate inital population of 20 binary strings of length 100
 		self.generatePopulation(20, 100)
 
 		# Partition population of binary strings into respective subsets
@@ -304,6 +307,22 @@ class Genetic(object):
 
 		# Test crossover
 		self.crossover()
+
+		# Breed 50 generations
+		while self.generation < 10:
+			# Partition new generation of genes
+			self.partition()
+
+			# Compute fitness of each new gene
+			self.fitnessAssessment(self.numericalPopulation)
+
+			print self.frequency
+
+			# Select 10 weighted strings to form new population with
+			self.selection(10, self.population)		
+
+			# Perform crossover to form a new generation
+			self.crossover()	
 
 		return
 
