@@ -1,6 +1,6 @@
 # Genetic-Algorithms
 
-Repository containing problems solved using Genetic Algorithms.
+Repository containing problems solved using Genetic Algorithms. A detailed blog post detailing the implementation and results can be found [here](http://drksephy.github.io/2015/11/28/geneticalgorithms/).
 
 ### Assignment
 
